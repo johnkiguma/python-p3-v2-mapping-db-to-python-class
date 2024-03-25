@@ -1,6 +1,5 @@
 from __init__ import CURSOR, CONN
 
-
 class Department:
 
     def __init__(self, name, location, id=None):
@@ -72,3 +71,16 @@ class Department:
 
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
+
+    @classmethod
+    def find_by_id(cls, id):
+        """ Find a department by its ID """
+        sql = """
+            SELECT * FROM departments WHERE id = ?
+        """
+        CURSOR.execute(sql, (id,))
+        row = CURSOR.fetchone()
+        if row:
+            return cls(*row)
+        else:
+            return None
